@@ -16,6 +16,7 @@ class Posts extends Migration
         //作りたいテーブル等を作成
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id', 11); //increments INT型でオートインクリメントでPKになる
+            $table->integer('user_id', 11); //
             $table->foreign('user_id', 11)->references('id')->on('users'); // 外部キー
             $table->string('post', 400); //string 文字数指定のvarchar型
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

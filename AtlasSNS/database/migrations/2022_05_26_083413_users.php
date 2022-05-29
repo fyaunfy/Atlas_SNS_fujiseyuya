@@ -17,7 +17,7 @@ class Users extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id', 11); //increments INT型でオートインクリメントでPKになる
             $table->string('username', 255); //string 文字数指定のvarchar型
-            $table->unique('mail', 255); //string 文字数指定のvarchar型
+            $table->string('mail', 255)->unique(); //string 文字数指定のvarchar型
             $table->string('password', 255); //string 文字数指定のvarchar型
             $table->string('bio', 400)->nullable(); //string 文字数指定のvarchar型 nullがYES
             $table->string('images', 255); //string 文字数指定のvarchar型
