@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Auth;
 
 class LoginController extends Controller
 {
@@ -26,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -37,4 +38,23 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function login(Request $request){
+        if($request->isMethod('post')){
+
+            $data=$request->only('mail','password');
+            // ログインが成功したら、トップページへ
+            //↓ログイン条件は公開時には消すこと
+            if(Auth::attempt($data)){
+                return redirect('/top');
+            }
+        }
+        return view("auth.login");
+    }
+
+
+    // ログアウト後のリダイレクト
+    protected function loggedOut(\Illuminate\Http\Request $request) {
+        return redirect('login');
+        }
 }
