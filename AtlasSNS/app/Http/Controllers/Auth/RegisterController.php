@@ -46,10 +46,11 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
+    // バリデーションメソッドの作成 定義
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:6',
             'mail' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:4|confirmed',
         ]);
@@ -61,6 +62,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
+    // 新規登録
     protected function create(array $data)
     {
         return User::create([
@@ -71,58 +73,39 @@ class RegisterController extends Controller
     }
 
 
-    // public function registerForm(){
-    //     return view("auth.register");
-    // }
 
+    // バリデーション
     public function register(Request $request){
         if($request->isMethod('post')){
+
+            // 空の$dataに inputで入力した値を入れる
             $data = $request->input();
-
-            $this->create($data);
-            return redirect('added');
-        }
-        return view('auth.register');
-    }
-
-    public function added(){
-        return view('auth.added');
-    }
-
-
-        // バリデーション
-        public function index()
-        {
-            return view('auth.register');
-        }
+            // $requestの中に$dataの中身が入る
+            
+            // バリデーションメソッドを$validatorの変数に入れる
+            $validator = $this->validator($data);
      
-        public function confirm(Request $request)
-        {
-            $rules = [
-                'username' => 'required|min:2|max:5',
-                'mail' => 'required|email',
-                'password' => 'alpha_dash|max:10|min:4',
-            ];
-     
-            $messages = [
-                'username.required' => '名前を入力して下さい。',
-                'username.min' => '名前は2文字以上入力して下さい。',
-                'username.max' => '名前は10文字以下で入力して下さい。',
-                'mail.required' => 'メールアドレスを入力して下さい。',
-                'mail.email' => '正しいメールアドレスを入力して下さい。',
-                'password.required' => 'パスワードは英数字で4文字以上10文字以内で入力してください。',
-            ];
-     
-            $validator = Validator::make($request->all(), $rules, $messages);
-     
+            // もし$validatorの値のルールと送られていた値が違ったらregisterに返す。
+            // エラー文も送る。
             if ($validator->fails()) {
                 return redirect('/register')
                     ->withErrors($validator)
                     ->withInput();
             }
-     
-            return view('register.confirm')->with($validator->validate());
+
+            $this->create($data);
+        
+            //全ての処理が終わったらURLのaddedに移行
+            return redirect('added');
+
         }
+
+        return view('auth.register');
+    }
+    // 処理が終わったらaddedに返す。
+    public function added(){
+        return view('auth.added');
+    }
 
 
 }
