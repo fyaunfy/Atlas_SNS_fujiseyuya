@@ -55,6 +55,7 @@ class RegisterController extends Controller
             'password' => 'required|string|min:4|confirmed',
         ]);
     }
+    // $this->validator($data); にまとめてあるものにあたる
 
     /**
      * Create a new user instance after a valid registration.
@@ -62,12 +63,13 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    // 新規登録
+    // 新規登録 DBに情報を送る
     protected function create(array $data)
     {
         return User::create([
             'username' => $data['username'],
             'mail' => $data['mail'],
+            // bcrypt [暗号学的ハッシュ関数]、セキュリティ対策
             'password' => bcrypt($data['password']),
         ]);
     }
@@ -80,7 +82,6 @@ class RegisterController extends Controller
 
             // 空の$dataに inputで入力した値を入れる
             $data = $request->input();
-            // $requestの中に$dataの中身が入る
             
             // バリデーションメソッドを$validatorの変数に入れる
             $validator = $this->validator($data);
@@ -93,13 +94,14 @@ class RegisterController extends Controller
                     ->withInput();
             }
 
+            // 新規登録を実行
             $this->create($data);
         
             //全ての処理が終わったらURLのaddedに移行
             return redirect('added');
 
         }
-
+        // この処理をregisterに出力する
         return view('auth.register');
     }
     // 処理が終わったらaddedに返す。
