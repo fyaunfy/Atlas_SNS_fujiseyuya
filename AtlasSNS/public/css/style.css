@@ -1,0 +1,48 @@
+@charset "utf-8";
+html{
+}
+body{
+}
+/* header */
+header{
+    background:#186AC9;
+}
+
+/* main content */
+#row{
+    display: flex;
+    flex-flow: row wrap;
+}
+#container{
+    flex: 0 0 80%;
+}
+#side-bar{
+    flex: 0 0 19%;
+    border-left: 1px solid #727272;
+}
+
+.AtlasAccordion{
+	padding: 15px;
+	color: #fff;
+	font-size: 20px;
+	background: #2073c8;
+	position: relative;
+
+}
+.AtlasAccordion::before{/* 閉じている時 */
+	content: "＋";
+	position: absolute;
+	right: 20px;
+}
+.AtlasAccordion.is-active::before{/* 開いている時 */
+	content: "－";
+}
+
+.AtlasAccordion-ul {
+    display: none;
+}
+.AtlasAccordion-ul.is-active{
+    display: block;
+}
+
+
