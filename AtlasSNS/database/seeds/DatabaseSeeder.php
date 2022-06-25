@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         // $this->call(UsersTableSeeder::class); がコメントアウトしてるので外す。
         $this->call(UsersTableSeeder::class);
+
+        $this->call(PostsTableSeeder::class);
     }
 }

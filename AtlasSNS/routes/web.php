@@ -34,6 +34,7 @@ Route::post('/register', 'Auth\RegisterController@register');
 });
 
 
+
 // middlewareはログインしているかをチェックする。
 // authはログインしているとき 認証
 Route::group(['middleware' => 'auth'], function() {
@@ -45,14 +46,27 @@ Route::post('/added', 'Auth\RegisterController@added');
 //ログイン中のページ
 Route::get('/top','PostsController@index');
 
+// 削除ボタン
+Route::get('/top/{id}/delete','PostsController@delete');
+
+Route::post('/top','PostsController@post');
+
+// ユーザー投稿の一覧表示画面
+// Route::resource('/top', 'UsersController@show');
+
 Route::get('/profile','UsersController@profile');
 
-Route::get('/search','UsersController@index');
+// ユーザー検索
+Route::post('/search','UsersController@users');
+Route::get('/search','UsersController@search');
 
 Route::get('/follow-list','PostsController@index');
 Route::get('/follower-list','PostsController@index');
 
+
+
 Route::get('/logout', 'Auth\LoginController@logout');
 
 });
+
 

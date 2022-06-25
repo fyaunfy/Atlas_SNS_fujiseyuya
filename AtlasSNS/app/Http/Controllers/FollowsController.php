@@ -15,9 +15,15 @@ class FollowsController extends Controller
     }
 
 
-    
+    // public function following()
+    // {
+    //     $this->follows = new Follow();
 
+    //     $results = $this->follows->getFollowCount();
 
+    //     return view('layouts.login', compact('results',));
+
+    // }
 
 
 }

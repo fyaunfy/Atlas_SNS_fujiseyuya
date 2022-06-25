@@ -13,9 +13,9 @@ class UsersTableSeeder extends Seeder
     {
         // 初期ユーザー
         DB::table('users')->insert([
-            'username' => '初期設定マン',
+            'username' => 'laraマン',
             'mail' => 'User@mailaddress.com',
-            'password' => 'password',
+            'password' => 'passw',
         ]);
     }
 }

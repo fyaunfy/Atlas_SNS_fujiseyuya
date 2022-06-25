@@ -26,4 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    // public function posts()
+    // {
+    //     //リレーション
+    //     // postとuserを結びつける
+    //     // ユーザー（投稿者）は複数の記事を投稿できる。
+    //     // 「１対多」の「多」側 → メソッド名は複数形
+    //     return $this->hasMany('App\Post')->orderBy('created_at', 'desc');
+    // }
+
 }

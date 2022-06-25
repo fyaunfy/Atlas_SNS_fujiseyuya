@@ -176,7 +176,10 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        // 
+        // composer viewの登録
+        App\Providers\ComposerServiceProvider::class,
+
+        // フォームファサードの導入
         Collective\Html\HtmlServiceProvider::class,
 
     ],

@@ -111,7 +111,7 @@ class RegisterController extends Controller
 
 
 
-    // 処理が終わったらaddedに返す。
+    // addedを表示する。
     public function added(){
 
         return view('auth.added');

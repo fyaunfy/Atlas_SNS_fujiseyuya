@@ -30,12 +30,12 @@ header{
 
 }
 .AtlasAccordion::before{/* 閉じている時 */
-	content: "＋";
+	content: "－";
 	position: absolute;
 	right: 20px;
 }
 .AtlasAccordion.is-active::before{/* 開いている時 */
-	content: "－";
+	content: "＋";
 }
 
 .AtlasAccordion-ul {
