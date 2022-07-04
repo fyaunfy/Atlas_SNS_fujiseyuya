@@ -28,13 +28,22 @@ class User extends Authenticatable
     ];
 
 
-    // public function posts()
-    // {
-    //     //リレーション
-    //     // postとuserを結びつける
-    //     // ユーザー（投稿者）は複数の記事を投稿できる。
-    //     // 「１対多」の「多」側 → メソッド名は複数形
-    //     return $this->hasMany('App\Post')->orderBy('created_at', 'desc');
-    // }
+        // 多対多
+        // 第一引数には使用するモデル
+        // 第二引数には使用するテーブル名
+        // 第三引数にはリレーションを定義しているモデルの外部キー名
+        // 第四引数には結合するモデルの外部キー名
+
+        // フォロー→フォロワー
+        public function following()
+        {
+            return $this->belongsToMany('App\User', 'follows', 'following_id', 'followed_id');
+        }
+    
+        // フォロワー→フォロー
+        public function followed()
+        {
+            return $this->belongsToMany('App\User', 'follows', 'followed_id', 'following_id');
+        }
 
 }

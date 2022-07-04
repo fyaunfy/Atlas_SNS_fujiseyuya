@@ -6,7 +6,8 @@
 
 {!! Form::open(['url' => 'search']) !!}
      <div class="form-group">
-         {!! Form::input('text', 'newPost', null, [ 'placeholder' => 'ユーザー名']) !!}
+         
+         <input type="search" class="form-control mr-sm-2" name="search"  value="{{request('search')}}" placeholder="キーワードを入力">
      </div>
      <button type="submit">送信</button>
  {!! Form::close() !!}
@@ -15,9 +16,18 @@
 
  <table>
 @foreach ($list as $list)
+    <!-- 検索したワードを表示 -->
+    <p>検索したワードを表示</p>
+    <p>{{ $result }}</p>
+    <br>
+    <p>ユーザー検索結果一覧</p>
     <tr>
+    <!-- ログインしているユーザーのIDとuserのIDが一緒ではない場合 -->
+    @if (Auth::user()->id  != $list->id)
         <td>{{ $list->username }}</td>
+    @endif
     </tr>
+    
 @endforeach
 </table>
 

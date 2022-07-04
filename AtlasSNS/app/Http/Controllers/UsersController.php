@@ -5,37 +5,38 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 
-use App\Post; // こちらを追加 UsercontrollerでPostモデルを使うよと宣言
+
+
+use App\User; //  userモデルを使用するときに必要
 
 class UsersController extends Controller
 {
-    //
+    //プロフィールを表示
     public function profile(){
         return view('users.profile');
     }
 
-    // public function index(){
+    public function profileOld(){
+        $list = \DB::table('users')
+        ->get();
 
-    //     //一つはデータベースからデータを取りにいく記述
-    //     // postsテーブルからすべてのレコード情報をゲットする
-    //     // desc で投稿の順を新しいものが上に表示する
-    //     // $list = \DB::table('posts')
-    //     // ->join('users', 'posts.user_id', '=', 'users.id')
-    //     // ->orderBy('posts.created_at', 'desc')
-    //     // ->get();
+        return view('users.profile')->with('list',$list);
+    }
 
-    //     $list = \DB::table('users')
-    //     // ->join('users', 'posts.user_id', '=', 'users.id')
-    //     // ->orderBy('posts.created_at', 'desc')
-    //     ->get();
 
-    //     // postsディレクトリにあるindex.blade.phpに渡す
-    //     return view('posts.index',['list'=>$list]);
-    // }
+
+
+
+    public function showUsers() {
+       
+        $users = User::where("id" , "!=" , Auth::user()->id);
+
+        return view('users.search', compact('users'));
+    }
 
 
     // ユーザーページ
-    public function search(){
+    public function users(){
 
         //一つはデータベースからデータを取りにいく記述
         // usersテーブルからすべてのレコード情報をゲットする
@@ -46,33 +47,38 @@ class UsersController extends Controller
     }
 
     // ブラウザに表示されない、登録処理だけを行う
-    public function users(Request $request)
+    public function search(Request $request)
     {
-        if($request->isMethod('post')){
-
-            // キーワード受け取り
-            $keyword = $request->input('keyword');
+            // ismethodを使わないでしたらできました。
+            // inputで送られてきた情報を＄search に代入。
+            $search = $request->input('search');
             
-            // クエリ生成
+
+            // クエリ生成 <- よう勉強。
+             // userモデル使用
             $query = User::query();
             
-            // もしキーワードがあったら
-            if(!empty($keyword))
+            // もし$searchが空ではない場合
+            if(!empty($search))
             {
-                $query
-                ->where('username','like','%'.$keyword.'%');
+                // 曖昧検索 whereでどれかを指定
+                $query->where('username','like','%'.$search.'%');
             }
-            
-            // ページネーション
-            $data = $query->orderBy('created_at','desc')->paginate(10);
-            return view('users.search')->with('data',$data)
-            ->with('keyword',$keyword)
-            ->with('message','ユーザーリスト');
+            // $listに$queryで取得したデータを代入
+            $list = $query->get();
 
-            // return redirect('search');
-        }
-
+            // 検索した結果を表示 
+            $result = $request->input('search');
+            //viewで表示。
+            return view('users.search',['list'=>$list])->with('result',$result);
     }
+
+
+
+    // \DB::table('users')
+    // ->insert([
+    //     'username' => $username
+    // ]);
 
 
 }

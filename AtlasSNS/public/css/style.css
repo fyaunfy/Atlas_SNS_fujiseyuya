@@ -45,4 +45,46 @@ header{
     display: block;
 }
 
+/* index.blade.php */
+/* モーダルウィンドウ */
+/* 開くボタン */
+.button-open {
+	display: block;
+	margin: 0 auto;
+	width: 20rem;
+	padding: 1em;
+	background-color: #3140c9;
+	color: #eaeaea;
+	border-radius: 20rem;
+	cursor: pointer;
+  }
+
+  /* モーダルウィンドウ */
+/* 必要に応じて編集しご自身でSNS課題のレイアウトのようにカスタマイズしてください。 */
+.content{
+    margin: 0 auto;
+    padding: 40px;
+}
+.modal{
+    display: none;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+.modal__bg{
+    background: rgba(0,0,0,0.8);
+    height: 100vh;
+    position: absolute;
+    width: 100%;
+}
+.modal__content{
+    background: #fff;
+    left: 50%;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    width: 60%;
+}
 

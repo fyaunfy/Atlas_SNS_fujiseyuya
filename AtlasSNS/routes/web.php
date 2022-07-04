@@ -48,17 +48,28 @@ Route::get('/top','PostsController@index');
 
 // 削除ボタン
 Route::get('/top/{id}/delete','PostsController@delete');
-
+// 投稿
 Route::post('/top','PostsController@post');
+
+//update
+Route::post('/top', 'PostsController@update');
+
+// updateform 編集フォーム
+Route::get('/top/{id}/update-form', 'PostsController@updateForm');
 
 // ユーザー投稿の一覧表示画面
 // Route::resource('/top', 'UsersController@show');
 
 Route::get('/profile','UsersController@profile');
 
+Route::get('/profile','UsersController@profileOld');
+
 // ユーザー検索
-Route::post('/search','UsersController@users');
+
+Route::get('/search','UsersController@users');
+Route::post('/search','UsersController@search');
 Route::get('/search','UsersController@search');
+
 
 Route::get('/follow-list','PostsController@index');
 Route::get('/follower-list','PostsController@index');
