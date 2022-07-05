@@ -10,14 +10,14 @@
 {{Form::token()}}
 <h2>プロフィール画面</h2>
 
-{{ Form::label('ユーザー名') }}
-
 @foreach ($list as $list)
 @if (Auth::user()->id  == $list->id)
+{{ Form::label('ユーザー名') }}
+
 <!-- 入力値を表示 -->
 <input type="text" name="username" value="{{ $list->username }}" />
-@endif
-@endforeach
+
+
 
 @if ($errors->has('username'))
     <p>{{$errors->first('username')}}</p>
@@ -26,18 +26,15 @@
 
 {{ Form::label('メールアドレス') }}
 
-@foreach ($list as $list)
-@if (Auth::user()->id  == $list->id)
 <input type="text" name="mail" value="{{ $list->mail }}" />
-@endif
-@endforeach
 
 @if ($errors->has('mail'))
     <p>{{$errors->first('mail')}}</p>
 @endif
 
 {{ Form::label('パスワード') }}
-{{ Form::text('password',null,['class' => 'input']) }}
+
+<input type="text" name="password" value="{{ $list->password }}" />
 
 @if ($errors->has('password'))
     <p>{{$errors->first('password')}}</p>
@@ -45,7 +42,7 @@
 
 
 {{ Form::label('パスワード確認') }}
-{{ Form::text('password_confirmation',null,['class' => 'input']) }}
+{{ Form::text('password_confirmation',$list->password,['class' => 'input']) }}
 
 @if ($errors->has('password'))
     <p>{{$errors->first('password')}}</p>
@@ -53,12 +50,15 @@
 
 
 {{ Form::label('bio') }}
-{{ Form::text('bio',null,['class' => 'input']) }}
+{{ Form::text('bio', $list->bio ,['class' => 'input']) }}
 
 
 {{ Form::label('images') }}
-{{Form::file('images', ['class'=>'input'])}}
+{{Form::file('images' ,['class'=>'input'])}}
 
+
+@endif
+@endforeach
 
 {{ Form::submit('更新') }}
 

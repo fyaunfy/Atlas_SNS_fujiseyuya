@@ -47,6 +47,13 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
+        // こちら追加
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => '127.0.0.1',
+            'username' => 'root',
+            'password' => 'root',
+        ],
 
         'public' => [
             'driver' => 'local',
@@ -63,6 +70,12 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
+        ],
+
+        //こちらを追加
+        'links' => [
+            public_path('storage') => storage_path('app/public'),
+            public_path('images') => storage_path('app/images'),
         ],
 
     ],

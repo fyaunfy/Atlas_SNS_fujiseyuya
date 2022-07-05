@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-// validator
+// validatorを使用
 use Illuminate\Support\Facades\Validator;
+
 // これがないとコントローラーでAuthは使えない。
 use Illuminate\Support\Facades\Auth;
 
@@ -33,36 +34,6 @@ class PostsController extends Controller
         return view('posts.index')->with('list',$list);
     }
 
-        /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    // バリデーションメソッドの作成 ルール定義
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'post' => 'required|string|max:6',
-        ]);
-    }
-    // $this->validator($data); にまとめてあるものにあたる
-
-
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Post
-     */
-    // 新規登録 DBに情報を送る
-    protected function create(array $data)
-    {
-        return Post::create([
-            'post' => $data['post'],
-        ]);
-    }
-
 
     // ブラウザに表示されない、登録処理だけを行う
     public function post(Request $request)
@@ -74,25 +45,18 @@ class PostsController extends Controller
             
             // フォームで取った値を$postに入れる
             $data = $request->input('newPost');
-            
+          
             // ユーザーIDを取得
             $user_id = Auth::id();
 
-            // // バリデーションメソッドを$validatorの変数に入れる
-            // $validator = $this->validator($data);
 
-            // dd($validator);
-            
-            // // もし$validatorの値のルールと送られていた値が違ったらtopに返す。
-            // // エラー文も送る。
-            // if ($validator->fails()) {
-            //     return redirect('/top')
-            //         ->withErrors($validator)
-            //         ->withInput();
-            // }
+            $rules = [
+                // バリデーションルール定義
+                'newPost' => 'required|string|max:150',
+                  ];
+            // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
+            $this->validate($request, $rules);
 
-            // // 新規登録を実行
-            // $this->create($data);
 
             \DB::table('posts')
             ->insert([
@@ -102,31 +66,27 @@ class PostsController extends Controller
 
             // view〜だとindexメソッドで書いた処理をこちらにも書かなくてはいけないから
             // redirectで省略する
-            return redirect('/top');
+            return redirect('top');
         }
 
 
     }
 
-    public function updateForm($id)
-    {
-        $list = \DB::table('posts')
-            ->where('id', $id)
-            ->first();
-        return view('posts.index', compact('post'));
-    } 
-    
-    //{!! Form::hidden('id', $post->id, ['required', 'class' => 'modal_id']) !!}
-    //{!! Form::input('textarea', 'upPost', $post->post, ['required', 'class' => 'modal_id']) !!}
+    // 投稿編集
     public function update(Request $request)
     {
         
         $id = $request->input('id');
-        // $id = $request->id;
-        dd($id);
         // name属性が「upPost」「id」で指定されているフォームのテキストを、別々の変数で取得
         $up_post = $request->input('upPost');
-        
+
+        $rules = [
+            // バリデーションルール定義
+            'upPost' => 'required|string|max:150',
+              ];
+        // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
+        $this->validate($request, $rules);
+
         // 「\DB::~~」と書かれている箇所です。改行されていますが、最後に「->update();」と書かれているので、postsテーブルのレコードをここで更新
         \DB::table('posts')
             ->where('id', $id)

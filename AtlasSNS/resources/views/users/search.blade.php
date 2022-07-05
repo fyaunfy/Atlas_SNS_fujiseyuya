@@ -15,12 +15,12 @@
 
 
  <table>
-@foreach ($list as $list)
-    <!-- 検索したワードを表示 -->
-    <p>検索したワードを表示</p>
+
+ <p>検索したワードを表示</p>
     <p>{{ $result }}</p>
     <br>
     <p>ユーザー検索結果一覧</p>
+@foreach ($list as $list)
     <tr>
     <!-- ログインしているユーザーのIDとuserのIDが一緒ではない場合 -->
     @if (Auth::user()->id  != $list->id)

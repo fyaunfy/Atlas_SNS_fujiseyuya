@@ -22,11 +22,11 @@
 <body>
     <header>
         <div id = "head">
-        <h1><a href="{{ asset('/top')}}"><img src="{{ asset('images/atlas.png')}}"></a></h1>
+        <h1><a href="{{ asset('/top')}}"><img src="{{ asset('storage/atlas.png')}}"></a></h1>
             <div id="">
                 <div class="AtlasAccordion is-active">
                     <!-- ログイン後に名前を表示する書き方 -->
-                    <p><?php $user = Auth::user(); ?>{{ $user->username }}さん<img src="{{ asset('images/icon1.png')}}"></p>
+                    <p><?php $user = Auth::user(); ?>{{ $user->username }}さん<img src="{{ asset('storage/icon1.png')}}"></p>
                 </div>
                 <ul class="AtlasAccordion-ul">
                     <li><a href="{{ asset('/top')}}">ホーム</a></li>

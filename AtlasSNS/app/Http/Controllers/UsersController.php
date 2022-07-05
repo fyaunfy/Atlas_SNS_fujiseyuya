@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-
-
+// バリデーションを使用するときに記述
+use Illuminate\Support\Facades\Validator;
 
 use App\User; //  userモデルを使用するときに必要
+
+use Illuminate\Support\Facades\Storage; // Storageの機能を使用することができる
 
 class UsersController extends Controller
 {
@@ -16,22 +17,11 @@ class UsersController extends Controller
         return view('users.profile');
     }
 
+    //既存の情報を入力フォームの初期値に設定
     public function profileOld(){
         $list = \DB::table('users')
         ->get();
-
         return view('users.profile')->with('list',$list);
-    }
-
-
-
-
-
-    public function showUsers() {
-       
-        $users = User::where("id" , "!=" , Auth::user()->id);
-
-        return view('users.search', compact('users'));
     }
 
 
@@ -53,8 +43,6 @@ class UsersController extends Controller
             // inputで送られてきた情報を＄search に代入。
             $search = $request->input('search');
             
-
-            // クエリ生成 <- よう勉強。
              // userモデル使用
             $query = User::query();
             
