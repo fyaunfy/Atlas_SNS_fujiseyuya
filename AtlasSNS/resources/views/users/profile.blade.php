@@ -54,7 +54,7 @@
 
 
 {{ Form::label('images') }}
-{{Form::file('images',['class'=>'input'])}}
+{{Form::file('images' ,['class'=>'input','id'=>'images'])}}
 
 
 @endif
