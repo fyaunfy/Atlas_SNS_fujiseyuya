@@ -4,6 +4,7 @@
 
 <p>ユーザー検索入力フォーム</p>
 
+
 {!! Form::open(['url' => 'search']) !!}
      <div class="form-group">
          

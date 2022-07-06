@@ -60,7 +60,7 @@ Route::get('/profile','UsersController@profile');
 // Route::post('/profile','UsersController@profile');
 
 // プロフィールアップデート
-Route::put('/profile','UsersController@profileUp');
+Route::post('/profile','UsersController@profileUp');
 
 // ユーザー検索
 Route::get('/search','UsersController@users');

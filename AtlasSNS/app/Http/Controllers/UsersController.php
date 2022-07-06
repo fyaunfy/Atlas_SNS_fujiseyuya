@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Storage; // Storageの機能を使用することができる
 
+// use App\Models\Memo;
+// use DB;
+
 class UsersController extends Controller
 {
 
@@ -33,6 +36,10 @@ class UsersController extends Controller
         // $password = $request->input('password');
         // $password_confirmation = $request->input('password_confirmation');
         // $bio = $request->input('bio');
+
+          
+       
+
         $user = Auth::user();
         $user->username = $request->input('username');
         $user->mail = $request->input('mail');
@@ -40,6 +47,42 @@ class UsersController extends Controller
         $user->bio = $request->input('bio');
         // storage/app/public配下にアップロード
         $user->images = $request->images->store('public/images');
+
+        $user->save();
+
+
+
+        // // 画像がアップロードされていれば、storageに保存
+        if(empty($user->images)) {
+            // なければnullを指定して、何も保存しない。
+            $user->images = null;
+        }
+
+        //もう一つの方法
+
+        // $data = $request->all();
+        // $images = $request->file('images');
+        // // // dd($images);
+
+        // if($request->hasFile('images')) {
+        //     $path = \Storage::put('/public', $images);
+        //     $path = explode('/', $path);
+        // } else {
+        //     $path = null;
+        // }
+
+        // $memo_id = Memo::insertGetId([
+        //     'images' => $path[1],
+        // ]);
+
+
+
+
+        // if ($validator->fails()) {
+        //     return redirect('/register')
+        //         ->withErrors($validator)
+        //         ->withInput();
+        // }
        
         // dd($user);
 
@@ -52,21 +95,6 @@ class UsersController extends Controller
         //       ];
         // // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
         // $validator = $this->validate($request, $rules);
-
-        $user->save();
-        // // 「\DB::~~」と書かれている箇所です。改行されていますが、最後に「->update();」と書かれているので、postsテーブルのレコードをここで更新
-        // \DB::table('users')
-        //     ->where('id', $id)
-        //     ->update(
-        //         [
-        //             'username' => $username,
-        //             'mail' => $mail,
-        //             'password' => $password,
-        //             'password_confirmation' => $password_confirmation,
-        //             'bio' => $bio,
-        //             'images' => $images,
-        //         ]
-        //     );
 
         return redirect('profile');
     }

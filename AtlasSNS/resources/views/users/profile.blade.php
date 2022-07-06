@@ -6,7 +6,7 @@
 第一引数：name属性の値
 第二引数：value属性の値
 第三引数：「class」「placeholder」など追加の属性 -->
-{!! Form::open(['url' => '/profile', 'method' => 'PUT' ,'enctype' => 'multipart/form-data']) !!}
+{!! Form::open(['url' => '/profile', 'method' => 'POST' ,'enctype' => 'multipart/form-data']) !!}
 {{Form::token()}}
 <h2>プロフィール画面</h2>
 
@@ -65,8 +65,10 @@
 
 {{ Form::submit('更新') }}
 
+
+
 {!! Form::close() !!}
 
-
+<p><img src="{{ asset('storage/$list->images')}}"></p>
 
 @endsection
