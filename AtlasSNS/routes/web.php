@@ -55,9 +55,12 @@ Route::post('/top','PostsController@post');
 Route::post('/update', 'PostsController@update');
 
 
+// プロフィール表示
 Route::get('/profile','UsersController@profile');
+// Route::post('/profile','UsersController@profile');
 
-Route::get('/profile','UsersController@profileOld');
+// プロフィールアップデート
+Route::put('/profile','UsersController@profileUp');
 
 // ユーザー検索
 Route::get('/search','UsersController@users');

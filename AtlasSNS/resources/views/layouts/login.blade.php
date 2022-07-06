@@ -31,6 +31,8 @@
                 <ul class="AtlasAccordion-ul">
                     <li><a href="{{ asset('/top')}}">ホーム</a></li>
                     <li><a href="{{ asset('/profile')}}">プロフィール</a></li>
+                    
+                    <li><a href="/top/{{$list->id}}/profile">更新 プロフィール</a></li>
                     <li><a href="{{ asset('/logout')}}">ログアウト</a></li>
                 </ul>
             </div>

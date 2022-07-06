@@ -27,7 +27,6 @@
     <p>{{$errors->first('password')}}</p>
 @endif
 
-
 {{ Form::label('パスワード確認') }}
 {{ Form::text('password_confirmation',null,['class' => 'input']) }}
 

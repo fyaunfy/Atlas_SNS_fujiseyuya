@@ -6,7 +6,7 @@
 第一引数：name属性の値
 第二引数：value属性の値
 第三引数：「class」「placeholder」など追加の属性 -->
-{!! Form::open(['url' => '/top']) !!}
+{!! Form::open(['url' => '/profile', 'method' => 'PUT' ,'enctype' => 'multipart/form-data']) !!}
 {{Form::token()}}
 <h2>プロフィール画面</h2>
 
@@ -54,7 +54,7 @@
 
 
 {{ Form::label('images') }}
-{{Form::file('images' ,['class'=>'input'])}}
+{{Form::file('images',['class'=>'input'])}}
 
 
 @endif
