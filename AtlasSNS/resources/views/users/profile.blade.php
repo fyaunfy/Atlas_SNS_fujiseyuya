@@ -52,9 +52,12 @@
 {{ Form::label('bio') }}
 {{ Form::text('bio', $list->bio ,['class' => 'input']) }}
 
+@if ($errors->has('bio'))
+    <p>{{$errors->first('bio')}}</p>
+@endif
 
 {{ Form::label('images') }}
-{{Form::file('images' ,['class'=>'input','id'=>'images'])}}
+<input class="input" id="images" name="images" type="file" value="$list->images">
 
 
 @endif
@@ -63,5 +66,7 @@
 {{ Form::submit('更新') }}
 
 {!! Form::close() !!}
+
+
 
 @endsection

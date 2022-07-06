@@ -40,19 +40,20 @@ class UsersController extends Controller
         $user->bio = $request->input('bio');
         // storage/app/public配下にアップロード
         $user->images = $request->images->store('public/images');
-        $user->save();
+       
         // dd($user);
 
-        $rules = [
-            // バリデーションルール定義
-            'username' => 'string|max:6',
-            'mail' => 'string|email|max:255|unique:users',
-            'password' => 'string|min:4|confirmed',
-            'bio' => 'string|max:400',
-              ];
-        // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
-        $this->validate($request, $rules);
+        // $rules = [
+        //     // バリデーションルール定義
+        //     'username' => 'string|max:6',
+        //     'mail' => 'string|email|max:255|unique:users',
+        //     'password' => 'string|min:4|confirmed',
+        //     'bio' => 'string|max:400',
+        //       ];
+        // // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
+        // $validator = $this->validate($request, $rules);
 
+        $user->save();
         // // 「\DB::~~」と書かれている箇所です。改行されていますが、最後に「->update();」と書かれているので、postsテーブルのレコードをここで更新
         // \DB::table('users')
         //     ->where('id', $id)
