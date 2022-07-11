@@ -6,7 +6,7 @@
 第一引数：name属性の値
 第二引数：value属性の値
 第三引数：「class」「placeholder」など追加の属性 -->
-{!! Form::open(['url' => '/profile', 'method' => 'POST' ,'enctype' => 'multipart/form-data']) !!}
+{!! Form::open(['url' => '/profile', 'method' => 'PUT' ,'enctype' => 'multipart/form-data']) !!}
 {{Form::token()}}
 <h2>プロフィール画面</h2>
 
@@ -16,8 +16,6 @@
 
 <!-- 入力値を表示 -->
 <input type="text" name="username" value="{{ $list->username }}" />
-
-
 
 @if ($errors->has('username'))
     <p>{{$errors->first('username')}}</p>
@@ -34,7 +32,7 @@
 
 {{ Form::label('パスワード') }}
 
-<input type="text" name="password" value="{{ $list->password }}" />
+<input type="text" name="password" value="" />
 
 @if ($errors->has('password'))
     <p>{{$errors->first('password')}}</p>
@@ -42,7 +40,7 @@
 
 
 {{ Form::label('パスワード確認') }}
-{{ Form::text('password_confirmation',$list->password,['class' => 'input']) }}
+{{ Form::text('password_confirmation',null,['class' => 'input']) }}
 
 @if ($errors->has('password'))
     <p>{{$errors->first('password')}}</p>
@@ -59,6 +57,9 @@
 {{ Form::label('images') }}
 <input class="input" id="images" name="images" type="file" value="$list->images">
 
+@if ($errors->has('images'))
+    <p>{{$errors->first('images')}}</p>
+@endif
 
 @endif
 @endforeach
@@ -69,6 +70,6 @@
 
 {!! Form::close() !!}
 
-<p><img src="{{ asset('storage/$list->images')}}"></p>
+
 
 @endsection

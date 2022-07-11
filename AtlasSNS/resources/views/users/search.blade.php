@@ -26,6 +26,8 @@
     <!-- ログインしているユーザーのIDとuserのIDが一緒ではない場合 -->
     @if (Auth::user()->id  != $list->id)
         <td>{{ $list->username }}</td>
+        <td><a href="/search/{{$list->id}}/create">フォローする</a></td>
+        <td><a href="/search/{{$list->id}}/delete">フォロー解除</a></td>
     @endif
     </tr>
     

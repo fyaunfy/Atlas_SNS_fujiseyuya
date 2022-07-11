@@ -97,6 +97,7 @@ class RegisterController extends Controller
             // 新規登録を実行
             $this->create($data);
 
+
             // 登録したユーザー名を変数に入れる
             $username = $request->input('username');
             // widthメソッドでControllerからviewへの変数の受け渡しをする。

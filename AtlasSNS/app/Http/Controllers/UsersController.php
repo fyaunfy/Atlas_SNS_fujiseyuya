@@ -27,74 +27,40 @@ class UsersController extends Controller
         return view('users.profile')->with('list',$list);
     }
 
-    //アップロード
+    // //アップロード
     public function profileUp(Request $request){
 
-        // $id = $request->input('id');
-        // $username = $request->input('username');
-        // $mail = $request->input('mail');
-        // $password = $request->input('password');
-        // $password_confirmation = $request->input('password_confirmation');
-        // $bio = $request->input('bio');
-
-          
-       
-
         $user = Auth::user();
+
+
         $user->username = $request->input('username');
         $user->mail = $request->input('mail');
-        $user->password = bcrypt($request->input('password'));
+        // $user->password = bcrypt($request->input('password'));
+        // 上記のようにすると、更新するたびにパスワードが変更される。
+        $user->password = $request->input('password');
         $user->bio = $request->input('bio');
-        // storage/app/public配下にアップロード
-        $user->images = $request->images->store('public/images');
 
+
+        // 画像がstorageに入っていればtrueを返す。
+        // isset 値が入っているかを判断する関数 NULLも入れてしまうため、注意。
+        if(isset($request->images)) {
+            // storage/app/public配下にアップロード
+            $user->images = $request->images->store('public/images'); 
+            // dd($request->images);
+        } 
+
+        $rules = [
+            // バリデーションルール定義
+            'username' => 'required|string|min:2|max:12',
+            'mail' => 'required|string|email|min:5|max:40',
+            'password' => 'required|string|min:4|max:20|confirmed',
+            'bio' => 'max:150',
+            'images' => 'file|mimes:png,jpg,bmp,gif,svg',
+              ];
+        // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
+        $this->validate($request, $rules);
+        
         $user->save();
-
-
-
-        // // 画像がアップロードされていれば、storageに保存
-        if(empty($user->images)) {
-            // なければnullを指定して、何も保存しない。
-            $user->images = null;
-        }
-
-        //もう一つの方法
-
-        // $data = $request->all();
-        // $images = $request->file('images');
-        // // // dd($images);
-
-        // if($request->hasFile('images')) {
-        //     $path = \Storage::put('/public', $images);
-        //     $path = explode('/', $path);
-        // } else {
-        //     $path = null;
-        // }
-
-        // $memo_id = Memo::insertGetId([
-        //     'images' => $path[1],
-        // ]);
-
-
-
-
-        // if ($validator->fails()) {
-        //     return redirect('/register')
-        //         ->withErrors($validator)
-        //         ->withInput();
-        // }
-       
-        // dd($user);
-
-        // $rules = [
-        //     // バリデーションルール定義
-        //     'username' => 'string|max:6',
-        //     'mail' => 'string|email|max:255|unique:users',
-        //     'password' => 'string|min:4|confirmed',
-        //     'bio' => 'string|max:400',
-        //       ];
-        // // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
-        // $validator = $this->validate($request, $rules);
 
         return redirect('profile');
     }
@@ -141,3 +107,8 @@ class UsersController extends Controller
 
 
 }
+
+
+// @if (isset($request->images))
+// <img class="logo" src="{{ \Storage::url($list->images) }}">
+// @endif

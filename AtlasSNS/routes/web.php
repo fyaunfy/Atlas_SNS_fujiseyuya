@@ -57,15 +57,20 @@ Route::post('/update', 'PostsController@update');
 
 // プロフィール表示
 Route::get('/profile','UsersController@profile');
-// Route::post('/profile','UsersController@profile');
 
 // プロフィールアップデート
-Route::post('/profile','UsersController@profileUp');
+Route::put('/profile','UsersController@profileUp');
 
-// ユーザー検索
+// ユーザー検索ページ表示
 Route::get('/search','UsersController@users');
+//ユーザー検索機能
 Route::post('/search','UsersController@search');
 Route::get('/search','UsersController@search');
+
+// フォロー機能
+Route::get('/search/{id}/create','FollowsController@create');
+// フォロー解除
+Route::get('/search/{id}/delete','FollowsController@delete');
 
 
 Route::get('/follow-list','PostsController@index');

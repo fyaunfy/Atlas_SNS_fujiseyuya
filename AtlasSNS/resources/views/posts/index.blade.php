@@ -20,7 +20,6 @@
         <td>{{ $list->created_at }}</td>
         <!-- ログインしているユーザーのIDとuser_idは一緒の場合削除ボタンを表示 -->
         @if (Auth::user()->id  == $list->user_id)
-        <!-- <td><a href="/top/{{$list->id}}/update">更新</a></td> -->
 
         <!-- モーダルを開くボタン -->
         <td><div class="content">

@@ -26,7 +26,11 @@
             <div id="">
                 <div class="AtlasAccordion is-active">
                     <!-- ログイン後に名前を表示する書き方 -->
-                    <p><?php $user = Auth::user(); ?>{{ $user->username }}さん<img src="{{ asset('storage/icon1.png')}}"></p>
+                    <p><?php $user = Auth::user(); ?>{{ $user->username }}さん
+                    <!-- Authでログインしているユーザーの画像を表示　＆　ここを変数にするとページごとで値が変わっているのでauthにする -->
+                    <img class="logo" src="{{ \Storage::url(Auth::user()->images) }}">
+
+                    </p>
                 </div>
                 <ul class="AtlasAccordion-ul">
                     <li><a href="{{ asset('/top')}}">ホーム</a></li>

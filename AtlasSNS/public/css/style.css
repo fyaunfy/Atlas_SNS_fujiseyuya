@@ -88,3 +88,9 @@ header{
     width: 60%;
 }
 
+/* アカウントのロゴ */
+
+.logo {
+    width: 100%;
+    max-width: 100px;
+}
