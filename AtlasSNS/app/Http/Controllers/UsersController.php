@@ -60,12 +60,38 @@ class UsersController extends Controller
         return redirect('profile');
     }
 
+    // $id,
+    public function othersProfile($id,$user_id){
 
-    public function othersProfile(){
-        $list = \DB::table('users')
+        // dd($id);
+
+        $images = \DB::table('users')
+        ->where('id',$id)
         ->get();
-        return view('users.othersProfile')->with('list',$list);
+
+        $list = \DB::table('posts')
+        // 第一引数は結合したいテーブル
+        ->join('users','posts.user_id','=','users.id')
+        ->where('user_id',$user_id)
+        ->orderBy('posts.created_at', 'desc')
+        ->select('posts.*','posts.user_id','users.username','users.images')
+        ->get();
+
+        return view('users.othersProfile',['list'=>$list, 'images' => $images]);
+        // return view('users.othersProfile',['images' => $images]);
     }
+
+//     @foreach ($list as $list)
+// <table>
+// @if ($list->user_id)
+// <tr>
+// <td><figure><img class="logo" src="{{ \Storage::url($list->images) }}"></figure></td>
+// <td><p>{{ $list->username }}：</p></td> 
+// <td><p>{{ $list->post }}：</p></td> 
+// </tr>
+// @endif
+// </table>
+// @endforeach
     
 
     // ブラウザに表示されない、登録処理だけを行う

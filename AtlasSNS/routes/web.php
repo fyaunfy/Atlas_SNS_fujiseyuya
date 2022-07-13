@@ -62,7 +62,7 @@ Route::get('/profile','UsersController@profile');
 Route::put('/profile','UsersController@profileUp');
 
 // 他のユーザーのプロフィール表示
-Route::get('/others-profile/{id}','UsersController@othersProfile');
+Route::get('/profile/{user_id}/others-profile','UsersController@othersProfile');
 
 
 

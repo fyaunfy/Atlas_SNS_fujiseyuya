@@ -10,7 +10,7 @@
     <li>
     <!-- フォローしているユーザーのアイコン一覧 -->
     @if (Auth::user()->isFollowing($list->id))
-        <a href="/others-profile/{{$list->id}}">
+        <a href="/profile/{{$list->id}}/others-profile">
         <figure><img class="logo" src="{{ \Storage::url($list->images) }}"></figure>
         </a> 
     @endif
@@ -22,7 +22,7 @@
 
     <li>
     @if (Auth::user()->isFollowing($followList->user_id)) 
-        <a href="{{ asset('/others-profile')}}">
+        <a href="/profile/{{$list->id}}/others-profile">
         <figure><img class="logo" src="{{ \Storage::url($followList->images) }}"></figure>
         </a> 
         <p>{{ $followList->username }}：</p>   

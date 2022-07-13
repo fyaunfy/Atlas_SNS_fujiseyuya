@@ -13,7 +13,9 @@
 
 @foreach ($list as $list)
     <tr>
-    
+    <!-- フォローしているユーザーとログインしているユーザーだけ表示 -->
+    @if (Auth::user()->isFollowing($list->user_id) || Auth::user()->id == $list->user_id)
+        <td><figure><img class="logo" src="{{ \Storage::url($list->images) }}"></figure></td>
         <td>{{ $list->username }}：</td>
         <td>{{ $list->post }}</td>
         <td>：{{ $list->created_at }}</td>
@@ -28,7 +30,7 @@
         <!-- 削除ボタン -->
         <td><a href="/top/{{$list->id}}/delete" onclick="return confirm('こちらの投稿を削除してもよろしいでしょうか？')">削除</a></td> 
         @endif
- 
+    @endif
     </tr>
 @endforeach
 

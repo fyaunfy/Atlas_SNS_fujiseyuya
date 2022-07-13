@@ -28,7 +28,7 @@ class PostsController extends Controller
         // 第一引数は結合したいテーブル
         ->join('users','posts.user_id','=','users.id')
         ->orderBy('posts.created_at', 'desc')
-        ->select('posts.*','posts.user_id','users.username')
+        ->select('posts.*','posts.user_id','users.username','users.images')
         ->get();
 
         // postsディレクトリにあるindex.blade.phpに渡す
