@@ -7,14 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use App\User; //  userモデルを使用するときに必要
+use App\Follow;
 
 // これがないとコントローラーでAuthは使えない。
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Storage; // Storageの機能を使用することができる
-
-// use App\Models\Memo;
-// use DB;
 
 class UsersController extends Controller
 {
@@ -32,14 +30,9 @@ class UsersController extends Controller
 
         $user = Auth::user();
 
-
         $user->username = $request->input('username');
         $user->mail = $request->input('mail');
-        // $user->password = bcrypt($request->input('password'));
-        // 上記のようにすると、更新するたびにパスワードが変更される。
-        $user->password = $request->input('password');
-        $user->bio = $request->input('bio');
-
+        $user->password = bcrypt($request->input('password'));
 
         // 画像がstorageに入っていればtrueを返す。
         // isset 値が入っているかを判断する関数 NULLも入れてしまうため、注意。
@@ -48,6 +41,8 @@ class UsersController extends Controller
             $user->images = $request->images->store('public/images'); 
             // dd($request->images);
         } 
+
+        $user->bio = $request->input('bio');
 
         $rules = [
             // バリデーションルール定義
@@ -65,20 +60,13 @@ class UsersController extends Controller
         return redirect('profile');
     }
 
-    
 
-
-
-    // ユーザーページ
-    public function users(){
-
-        //一つはデータベースからデータを取りにいく記述
-        // usersテーブルからすべてのレコード情報をゲットする
+    public function othersProfile(){
         $list = \DB::table('users')
         ->get();
-        // usersディレクトリにあるusers.blade.phpに渡す
-        return view('users.search',['list'=>$list]);
+        return view('users.othersProfile')->with('list',$list);
     }
+    
 
     // ブラウザに表示されない、登録処理だけを行う
     public function search(Request $request)
@@ -107,8 +95,3 @@ class UsersController extends Controller
 
 
 }
-
-
-// @if (isset($request->images))
-// <img class="logo" src="{{ \Storage::url($list->images) }}">
-// @endif

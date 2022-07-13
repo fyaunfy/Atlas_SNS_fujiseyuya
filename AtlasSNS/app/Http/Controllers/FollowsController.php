@@ -3,67 +3,98 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+// これがないとコントローラーでAuthは使えない。
+use Illuminate\Support\Facades\Auth;
 
 // フォロー機能 こちらを追加 モデル
 use App\User;
 use App\Follow;
+
+
+
 // 中間テーブル 誰が誰をフォローしているか/されているかの関係性をデータとして登録するために必要なテーブル
 class FollowsController extends Controller
 {
-    //
+    //フォローリスト
     public function followList(){
-        return view('follows.followList');
+
+        $list = \DB::table('users')
+        ->get();
+
+        //一つはデータベースからデータを取りにいく記述
+        // postsテーブルからすべてのレコード情報をゲットする
+        // desc で投稿の順を新しいものが上に表示する
+        $followList = \DB::table('posts')
+        // 第一引数は結合したいテーブル
+        ->join('users','posts.user_id','=','users.id')
+        ->orderBy('posts.created_at', 'desc')
+        ->select('posts.*','posts.user_id','users.username','users.images')
+        ->get();
+      
+        return view('follows.followList',['list'=>$list, 'followList'=>$followList]);
     }
+
+
+    //フォロワーリスト
     public function followerList(){
-        return view('follows.followerList');
+        $list = \DB::table('users')
+        ->get();
+
+        $followList = \DB::table('posts')
+        // 第一引数は結合したいテーブル
+        ->join('users','posts.user_id','=','users.id')
+        ->orderBy('posts.created_at', 'desc')
+        ->select('posts.*','posts.user_id','users.username','users.images')
+        ->get();
+
+        return view('follows.followerList',['list'=>$list, 'followList'=>$followList]);
     }
 
 
-    // // フォロー機能
-    // public function create($id)
-    // {
 
-    //     \DB::table('follows')->insert([
-    //         'id' => $id,
-    //     ]);
+    // フォロー機能
+    public function follow(User $user,$id) {
+        // $userにデータを渡す
+        $user = User::find($id); 
+        // dd($user);
+
+        // フォローするのはログインユーザーのため、ログインユーザーの情報を代入
+        $follower = Auth::user();
+        // dd($follower);
+
+        // followsテーブルのfollowing_idなどに入れたいため userのIDを入れなくてはならない。
+        // フォローしているか
+        $is_following = $follower->isFollowing($user->id);
+        // dd($user->id);
 
 
-    //     return redirect('/search');
-    // }
-    // フォロー解除機能
-    public function delete($id)
-    {
+        if(!$is_following) {
+            // フォローしていなければフォローする
+            $follower->follow($user->id);
+            return redirect('/search');
+        }
 
-        \DB::table('follows')
-            ->where('id', $id)
-            ->delete();
-
+        // フォローされているユーザーの数をcountして取得
+        // $followCount = count(Follow::where('followed_id', $user->id)->get());
         return redirect('/search');
     }
 
+    // unfollowはFollowインスタンスを取得して削除する機能
+    // フォロー解除
+    public function unfollow(User $user,$id) {
 
-    // // フォロー機能
-    // public function follow(User $user) {
-    //     $follow = FollowUser::create([
-    //         // フォローするのは当然自分なので(Auth)認証ユーザー＝フォローユーザー
-    //         'following_id' => \Auth::user()->id,
-    //         // 暗黙の結合などを使ってフォローされる相手のIDを$user->idで取得できるようにする
-    //         'followed_id' => $user->id,
-    //     ]);
+        // $userにデータを渡す
+        $user = User::find($id); 
 
-    //     // フォローされているユーザーの数をcountして取得
-    //     $followCount = count(FollowUser::where('followed_id', $user->id)->get());
-    //     return response()->json(['followCount' => $followCount]);
-    // }
-
-    // // unfollowはFollowインスタンスを取得して削除する機能
-    // public function unfollow(User $user) {
-    //     $follow = FollowUser::where('following_id', \Auth::user()->id)->where('followed_id', $user->id)->first();
-    //     $follow->delete();
-    //     $followCount = count(FollowUser::where('followed_id', $user->id)->get());
-
-    //     return response()->json(['followCount' => $followCount]);
-    // }
-
+        $follower = Auth::user();
+        // フォローしているか
+        $is_following = $follower->isFollowing($user->id);
+        if($is_following) {
+            // フォローしていればフォローを解除する
+            $follower->unfollow($user->id);
+            return redirect('/search');
+        }
+        return redirect('/search');
+    }
 
 }

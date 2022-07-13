@@ -54,7 +54,7 @@
                 <p class="btn"><a href="{{ asset('/follow-list')}}">フォローリスト</a></p>
                 <div>
                 <p>フォロワー数</p>
-                <p><?php $user = Auth::user(); ?>{{ $user->id }}名</p>
+
                 </div>
                 <p class="btn"><a href="{{ asset('/follower-list')}}">フォロワーリスト</a></p>
             </div>

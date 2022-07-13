@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 // これがないとコントローラーでAuthは使えない。
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Storage; // Storageの機能を使用することができる　画像
 use App\Post; //  postモデルを使用するときに必要
 
 class PostsController extends Controller
@@ -48,7 +49,6 @@ class PostsController extends Controller
           
             // ユーザーIDを取得
             $user_id = Auth::id();
-
 
             $rules = [
                 // バリデーションルール定義

@@ -14,10 +14,9 @@
 @foreach ($list as $list)
     <tr>
     
-
-        <td>{{ $list->username }}</td>
+        <td>{{ $list->username }}：</td>
         <td>{{ $list->post }}</td>
-        <td>{{ $list->created_at }}</td>
+        <td>：{{ $list->created_at }}</td>
         <!-- ログインしているユーザーのIDとuser_idは一緒の場合削除ボタンを表示 -->
         @if (Auth::user()->id  == $list->user_id)
 
