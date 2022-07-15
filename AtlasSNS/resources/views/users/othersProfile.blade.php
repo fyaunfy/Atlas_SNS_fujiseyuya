@@ -4,11 +4,27 @@
 
 <p>他のユーザーのプロフィール</p>
 
-@foreach ($images as $images)
-@if ($images->id)
-<figure><img class="logo" src="{{ \Storage::url($images->images) }}"></figure>
-@endif
-@endforeach
+
+<table>
+    @foreach ($images as $images)
+    @if ($images->id)
+    <tr>
+    <td><figure><img class="logo" src="{{ \Storage::url($images->images) }}"></figure></td>
+    <td>{{ $images->username }}:</td>
+    <td>{{ $images->bio }}</td>
+    
+        <!-- ログインしているユーザーが他のユーザーをフォローしている時 -->
+        @if (Auth::user()->isFollowing($images->id))
+        <td><a href="/search/{{$images->id}}/unfollow">フォロー解除</a></td>        
+        @else
+        <td><a href="/search/{{$images->id}}/follow">フォローする</a></td> 
+        @endif
+    
+    </tr>
+    @endif
+    @endforeach
+</table>
+
 
 @foreach ($list as $list)
 <table>
@@ -21,5 +37,6 @@
 @endif
 </table>
 @endforeach
+
 
 @endsection

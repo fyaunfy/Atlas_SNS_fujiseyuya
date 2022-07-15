@@ -61,13 +61,15 @@ class UsersController extends Controller
     }
 
     // $id,
+    // $user_id
     public function othersProfile($id,$user_id){
-
-        // dd($id);
 
         $images = \DB::table('users')
         ->where('id',$id)
+        // 一つの情報だけを取得する場合はfindを使う。
         ->get();
+
+       
 
         $list = \DB::table('posts')
         // 第一引数は結合したいテーブル
@@ -77,11 +79,34 @@ class UsersController extends Controller
         ->select('posts.*','posts.user_id','users.username','users.images')
         ->get();
 
+      
+
         return view('users.othersProfile',['list'=>$list, 'images' => $images]);
         // return view('users.othersProfile',['images' => $images]);
+        // return view('users.othersProfile',['list' => $list]);
     }
 
-//     @foreach ($list as $list)
+    // <table>
+    // @foreach ($images as $images)
+    // @if ($images->id)
+    // <tr>
+    // <td><figure><img class="logo" src="{{ \Storage::url($images->images) }}"></figure></td>
+    // <td>{{ $images->username }}:</td>
+    // <td>{{ $images->bio }}</td>
+    
+    //     <!-- ログインしているユーザーが他のユーザーをフォローしている時 -->
+    //     @if (Auth::user()->isFollowing($images->id))
+    //     <td><a href="/search/{{$images->id}}/unfollow">フォロー解除</a></td>        
+    //     @else
+    //     <td><a href="/search/{{$images->id}}/follow">フォローする</a></td> 
+    //     @endif
+    
+    // </tr>
+    // @endif
+    // @endforeach
+    // </table>
+
+// @foreach ($list as $list)
 // <table>
 // @if ($list->user_id)
 // <tr>
@@ -119,5 +144,13 @@ class UsersController extends Controller
             return view('users.search',['list'=>$list])->with('result',$result);
     }
 
+
+    // public function count(Follow $user_id) {
+        
+    //     $follow_count = $follower->getFollowCount($user->id);
+    //     $follower_count = $follower->getFollowerCount($user->id);
+
+    //     return view('layouts.login', ['follow_count'   => $follow_count,'follower_count' => $follower_count]);
+    // }
 
 }

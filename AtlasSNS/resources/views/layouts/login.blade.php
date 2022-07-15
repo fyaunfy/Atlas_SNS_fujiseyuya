@@ -49,7 +49,7 @@
                 <p><?php $user = Auth::user(); ?>{{ $user->username }}さんの</p>
                 <div>
                 <p>フォロー数</p>
-                <p>名</p>
+
                 </div>
                 <p class="btn"><a href="{{ asset('/follow-list')}}">フォローリスト</a></p>
                 <div>
