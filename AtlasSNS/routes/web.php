@@ -46,10 +46,13 @@ Route::post('/added', 'Auth\RegisterController@added');
 //ログイン中のページ
 Route::get('/top','PostsController@index');
 
+
 // 削除ボタン
 Route::get('/top/{id}/delete','PostsController@delete');
 // 投稿
 Route::post('/top','PostsController@post');
+
+Route::get('/layouts','FollowsController@count');
 
 //update
 Route::post('/update', 'PostsController@update');
@@ -62,7 +65,7 @@ Route::get('/profile','UsersController@profile');
 Route::put('/profile','UsersController@profileUp');
 
 // 他のユーザーのプロフィール表示
-Route::get('/profile/{user_id}/others-profile','UsersController@othersProfile');
+Route::get('/profile/{id}/others-profile','UsersController@othersProfile');
 
 
 
@@ -82,6 +85,8 @@ Route::get('/search/{id}/unfollow','FollowsController@unfollow');
 Route::get('/follow-list','FollowsController@followList');
 //フォロワーリスト
 Route::get('/follower-list','FollowsController@followerList');
+
+
 
 
 

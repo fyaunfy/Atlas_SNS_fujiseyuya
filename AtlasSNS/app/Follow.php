@@ -10,14 +10,15 @@ class Follow extends Model
     // テーブル
     protected $table = 'follows';
 
-    // public function getFollowCount($user_id)
+
+    // public function getFollowCount($id)
     // {
-    //     return $this->where('following_id', $user_id)->count();
+    //     return $this->where('following_id', $id)->count();
     // }
 
-    // public function getFollowerCount($user_id)
+    // public function getFollowerCount($id)
     // {
-    //     return $this->where('followed_id', $user_id)->count();
+    //     return $this->where('followed_id', $id)->count();
     // }
     
 }

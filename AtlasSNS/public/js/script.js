@@ -2,17 +2,11 @@
 $(function() {
 
 
-  //アコーディオン
-//   $('.nav-open').click(function(){
-//     $(this).toggleClass('active');
-//     $(this).next('ul').slideToggle();
-// });
-
-$('.AtlasAccordion').on('click', function(e) {
+$('.atlas-accordion').on('click', function(e) {
     e.preventDefault();
 
-    $('.AtlasAccordion').toggleClass('is-active');
-    $('.AtlasAccordion-ul').toggleClass('is-active');
+    $('.atlas-accordion').toggleClass('is-active');
+    $('.atlas-accordion-ul').toggleClass('is-active');
 
     return false;
   });
@@ -39,7 +33,6 @@ $('.AtlasAccordion').on('click', function(e) {
       $('.js-modal').fadeOut();
       return false;
   });
-
 
 
 });

@@ -48,7 +48,7 @@ class UsersController extends Controller
             // バリデーションルール定義
             'username' => 'required|string|min:2|max:12',
             'mail' => 'required|string|email|min:5|max:40',
-            'password' => 'required|string|min:4|max:20|confirmed',
+            'password' => 'required|string|min:8|max:20|confirmed',
             'bio' => 'max:150',
             'images' => 'file|mimes:png,jpg,bmp,gif,svg',
               ];
@@ -62,61 +62,24 @@ class UsersController extends Controller
 
     // $id,
     // $user_id
-    public function othersProfile($id,$user_id){
+    public function othersProfile($id){
 
-        $images = \DB::table('users')
+        $list = \DB::table('users')
         ->where('id',$id)
-        // 一つの情報だけを取得する場合はfindを使う。
         ->get();
 
-       
-
-        $list = \DB::table('posts')
+        $followList = \DB::table('users')
         // 第一引数は結合したいテーブル
-        ->join('users','posts.user_id','=','users.id')
-        ->where('user_id',$user_id)
+        ->join('posts','users.id','=','posts.user_id')
+        ->where('users.id',$id)
         ->orderBy('posts.created_at', 'desc')
-        ->select('posts.*','posts.user_id','users.username','users.images')
+        ->select('users.*','users.id','posts.post','users.username')
         ->get();
 
       
 
-        return view('users.othersProfile',['list'=>$list, 'images' => $images]);
-        // return view('users.othersProfile',['images' => $images]);
-        // return view('users.othersProfile',['list' => $list]);
+        return view('users.othersProfile',['list'=>$list, 'followList' => $followList]);
     }
-
-    // <table>
-    // @foreach ($images as $images)
-    // @if ($images->id)
-    // <tr>
-    // <td><figure><img class="logo" src="{{ \Storage::url($images->images) }}"></figure></td>
-    // <td>{{ $images->username }}:</td>
-    // <td>{{ $images->bio }}</td>
-    
-    //     <!-- ログインしているユーザーが他のユーザーをフォローしている時 -->
-    //     @if (Auth::user()->isFollowing($images->id))
-    //     <td><a href="/search/{{$images->id}}/unfollow">フォロー解除</a></td>        
-    //     @else
-    //     <td><a href="/search/{{$images->id}}/follow">フォローする</a></td> 
-    //     @endif
-    
-    // </tr>
-    // @endif
-    // @endforeach
-    // </table>
-
-// @foreach ($list as $list)
-// <table>
-// @if ($list->user_id)
-// <tr>
-// <td><figure><img class="logo" src="{{ \Storage::url($list->images) }}"></figure></td>
-// <td><p>{{ $list->username }}：</p></td> 
-// <td><p>{{ $list->post }}：</p></td> 
-// </tr>
-// @endif
-// </table>
-// @endforeach
     
 
     // ブラウザに表示されない、登録処理だけを行う
@@ -144,13 +107,5 @@ class UsersController extends Controller
             return view('users.search',['list'=>$list])->with('result',$result);
     }
 
-
-    // public function count(Follow $user_id) {
-        
-    //     $follow_count = $follower->getFollowCount($user->id);
-    //     $follower_count = $follower->getFollowerCount($user->id);
-
-    //     return view('layouts.login', ['follow_count'   => $follow_count,'follower_count' => $follower_count]);
-    // }
 
 }

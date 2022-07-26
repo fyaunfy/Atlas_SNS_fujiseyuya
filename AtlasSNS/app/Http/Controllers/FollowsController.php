@@ -67,9 +67,6 @@ class FollowsController extends Controller
         $is_following = $follower->isFollowing($user->id);
 
 
-        // $followCount = count(Follow::where('followed_id', $user->id)->get());
-
-
         if(!$is_following) {
             // フォローしていなければフォローする
             $follower->follow($user->id);
@@ -99,12 +96,14 @@ class FollowsController extends Controller
         return redirect('/search');
     }
 
-    // public function count(User $user_id)
-    // {
-    // $count = Follow::where('following_id',$user_id)->count();
-    // dd($count);
-    // return view('layouts.login')->with('count', $count);
-    // }
+    public function count()
+    {
+        $list = \DB::table('follows')
+        ->count();
+        // dd($list);
+    
+    return view('layouts.login')->with('list', $list);
+    }
 
 
 

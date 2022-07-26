@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Storage; // Storageの機能を使用することができる　画像
 use App\Post; //  postモデルを使用するときに必要
+use App\User; //  postモデルを使用するときに必要
 
 class PostsController extends Controller
 {
@@ -19,7 +20,7 @@ class PostsController extends Controller
     // public function index(){
     //     return view('posts.index');
     // }
-    public function index(){
+    public function index(User $user_id){
 
         //一つはデータベースからデータを取りにいく記述
         // postsテーブルからすべてのレコード情報をゲットする
@@ -32,7 +33,7 @@ class PostsController extends Controller
         ->get();
 
         // postsディレクトリにあるindex.blade.phpに渡す
-        return view('posts.index')->with('list',$list);
+        return view('posts.index',['list'=>$list]);
     }
 
 
@@ -52,7 +53,7 @@ class PostsController extends Controller
 
             $rules = [
                 // バリデーションルール定義
-                'newPost' => 'required|string|max:150',
+                'newPost' => 'required|string|max:200',
                   ];
             // 引数の値がバリデートされればリダイレクト、されなければ引き続き処理の実行
             $this->validate($request, $rules);

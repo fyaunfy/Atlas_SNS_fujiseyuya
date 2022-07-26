@@ -2,35 +2,41 @@
 
 @section('content')
 
-<ul>
+<ul class="form-group">
 
-   <p>フォローリスト</p>
+   <h3 class="follow-title">Follow List</h3>
+   <li class="follow-list-contens">
 @foreach ($list as $list)
 
-    <li>
+    
     <!-- フォローしているユーザーのアイコン一覧 -->
     @if (Auth::user()->isFollowing($list->id))
-        <a href="/profile/{{$list->id}}/others-profile">
+        <a class="follow-list-images" href="/profile/{{$list->id}}/others-profile">
         <figure><img class="logo" src="{{ \Storage::url($list->images) }}"></figure>
         </a> 
     @endif
-    </li>
-@endforeach
-</ul>
-<ul>
-@foreach ($followList as $followList)
 
-    <li>
-    @if (Auth::user()->isFollowing($followList->user_id)) 
-        <a href="/profile/{{$list->id}}/others-profile">
-        <figure><img class="logo" src="{{ \Storage::url($followList->images) }}"></figure>
-        </a> 
-        <p>{{ $followList->username }}：</p>   
-        <p>{{ $followList->post }}：</p>   
-    @endif
-    </li>
-    
 @endforeach
+</li>
+</ul>
+
+<ul>
+
+@foreach ($followList as $followList)
+    @if (Auth::user()->isFollowing($followList->user_id)) 
+    <li class="follow-list-box">
+        <a href="/profile/{{$followList->id}}/others-profile">
+        <figure class="post-content1"><img class="logo" src="{{ \Storage::url($followList->images) }}"></figure>
+        </a> 
+        <div class="follow-user">
+           {{ $followList->username }}<br><br>
+           {{ $followList->post }}
+        </div> 
+        <p class="follow-created">{{ $followList->created_at }}</p> 
+    </li> 
+    @endif
+@endforeach
+
 </ul>
 
 @endsection
