@@ -42,7 +42,7 @@
 <li class="pass-list">
 {{ Form::label('パスワード') }}
 
-<input type="text" class="input-text" name="password" value="" />
+<input type="password" class="input-text" name="password" value="" />
 
 </li>
 @if ($errors->has('password'))
@@ -51,7 +51,7 @@
 
 <li class="pass-confirmation-list">
 {{ Form::label('パスワード確認') }}
-{{ Form::text('password_confirmation',null,['class' => 'input-text']) }}
+{{ Form::password('password_confirmation',['class' => 'input-text']) }}
 </li>
 @if ($errors->has('password'))
     <p>{{$errors->first('password')}}</p>

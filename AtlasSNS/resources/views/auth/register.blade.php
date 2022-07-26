@@ -23,14 +23,14 @@
         @endif
 
         {{ Form::label('パスワード') }}
-        {{ Form::text('password',null,['class' => 'input']) }}
+        {{ Form::password('password',['class' => 'input']) }}
 
         @if ($errors->has('password'))
             <p>{{$errors->first('password')}}</p>
         @endif
 
         {{ Form::label('パスワード確認') }}
-        {{ Form::text('password_confirmation',null,['class' => 'input']) }}
+        {{ Form::password('password_confirmation',['class' => 'input']) }}
 
         @if ($errors->has('password'))
             <p>{{$errors->first('password')}}</p>
