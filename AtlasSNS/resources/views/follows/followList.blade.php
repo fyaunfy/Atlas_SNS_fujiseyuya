@@ -25,7 +25,7 @@
 @foreach ($followList as $followList)
     @if (Auth::user()->isFollowing($followList->user_id)) 
     <li class="follow-list-box">
-        <a href="/profile/{{$followList->id}}/others-profile">
+        <a href="/profile/{{$followList->user_id}}/others-profile">
         <figure class="post-content1"><img class="logo" src="{{ \Storage::url($followList->images) }}"></figure>
         </a> 
         <div class="follow-user">
